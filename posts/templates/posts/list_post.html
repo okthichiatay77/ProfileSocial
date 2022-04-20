@@ -42,7 +42,7 @@
                         <div style="padding: 20px;">
                             Like: {{ post.count_liked }}
                             <h2>{{ post.caption }}&nbsp;&nbsp;<a href="{% url 'posts:detail_post' pk=post.pk %}"><button class="btn btn-success">Detail</button></a></h2>
-                            <i><strong>Upload date:</strong> {{ post.upload_date }}</i>
+                            <small><strong>Upload date:</strong> {{ post.upload_date }}</small>
                             <div class="row">
                                 <div class="col-sm-4">
                                     {% if post.pk in liked_post_list %}

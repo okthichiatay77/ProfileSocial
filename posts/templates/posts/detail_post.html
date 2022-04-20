@@ -7,110 +7,100 @@
 
 
 {% block content %}
-    <div class="col-sm-8">
-            <div style="border: 1px solid #ddd">
-                        <div>
-                            {% if post.author.user_profile.profile_pic %}
-                                <img src="/media/{{ post.author.user_profile.profile_pic }}" width="75px" height="75px" class="rounded-circle">
-                            {% else %}
-                                <img src="/media/profile_pics/m.jpg" width="75px" height="75px" class="rounded-circle">
-                            {% endif %}
-                            <a style="text-decoration: none;" href="{% url 'accounts:user' username=post.author %}">{{ post.author }}</a>
-                            <br>
-                        </div>
-                        <br>
-                        <img src="/media/{{ post.image }}" width=" 100%">
-                        <div style="padding: 20px;">
-                            Like: {{ post.count_liked }}
-                            <h2>{{ post.caption }}&nbsp;&nbsp;<a href="{% url 'posts:detail_post' pk=post.pk %}"><button class="btn btn-success">Detail</button></a></h2>
-                            <i><strong>Upload date:</strong> {{ post.upload_date }}</i>
-                            <div class="row">
-                                <div class="col-sm-4">
-                                    {% if post.pk in liked_post_list %}
-                                        <a class="nav-link" href="{% url 'posts:unliked' pk=post.pk %}" target="_parent"><i class="fa-solid fa-thumbs-down" style="font-size: 36px;"></i>UnLike</a>
-                                    {% else %}
-                                        <a class="nav-link" href="{% url 'posts:liked' pk=post.pk %}" target="_parent"><i class="fa-solid fa-thumbs-up" style="font-size: 36px;"></i>Like</a>
-                                    {% endif %}
-                                </div>
-                                <div class="col-sm-4">
-                                    <a class="col-sm-9 nav-link"><i class="fa-solid fa-comments" style="font-size: 36px;
-                                    text-decoration: none;"></i>Comments</a>
-                                </div>
-                            </div>
-
-
-                        </div>
-                    </div>
+<div class="col-sm-10">
+    <div style="border: 1px solid #ddd">
+        <div>
+            {% if post.author.user_profile.profile_pic %}
+                <img src="/media/{{ post.author.user_profile.profile_pic }}" width="75px" height="75px" class="rounded-circle">
+            {% else %}
+                <img src="/media/profile_pics/m.jpg" width="75px" height="75px" class="rounded-circle">
+            {% endif %}
+                <a style="text-decoration: none;" href="{% url 'accounts:user' username=post.author %}">{{ post.author }}</a><br>
+                <small><strong>Upload Date:</strong> {{ post.upload_date }}</small>
+            <br>
+        </div>
+        <h2>{{ post.caption }}&nbsp;</h2>
+        <br>
+        <img src="/media/{{ post.image }}" width=" 100%">
+        <div style="padding: 20px;">
+            Like: {{ post.count_liked }}
+        </div>
     </div>
-
-
-
-
-    <h3>Comment:</h3>
+    <h2>Comment:</h2>
     <section style="background-color: #eee;">
-  <div class="container my-5 py-5">
-    <div class="row d-flex justify-content-center">
-      <div class="col-md-12 col-lg-10 col-xl-8">
-        <div class="card">
-          <div class="card-body">
-            <div class="card-footer py-3 border-0" style="background-color: #f8f9fa;">
-                <div class="d-flex flex-start w-100">
-                  <img class="rounded-circle shadow-1-strong me-3"
-                    src="/media/{{ user.user_profile.profile_pic }}" alt="avatar" width="40"
-                    height="40" />
-                  <div class="form-outline w-100">
-                    <form method="post">
-                      {% csrf_token %}
-                      <textarea class="form-control" id="textAreaExample" rows="4"
-                      style="background: #fff;" name="content" ></textarea>
-                      <label class="form-label" for="textAreaExample">Message</label>
-                      <div class="float-end mt-2 pt-1">
-                          <button type="submit" class="btn btn-primary btn-sm">Post comment</button>
-                          <button type="button" class="btn btn-outline-primary btn-sm">Cancel</button>
+      <div class="container my-5 py-5">
+        <div class="row d-flex justify-content-center">
+          <div class="col-md-12 col-lg-10 col-xl-8">
+            <div class="card">
+              <div class="card-body">
+                <div class="card-footer py-3 border-0" style="background-color: #f8f9fa;">
+                    <div class="d-flex flex-start w-100">
+                      {% if user.user_profile.profile_pic %}
+                      <img class="rounded-circle shadow-1-strong me-3"
+                        src="/media/{{ user.user_profile.profile_pic }}" alt="avatar" width="40"
+                        height="40" />
+                      {% else %}
+                        <img src="/media/profile_pics/m.jpg" alt="avatar" width="40"
+                        height="40" />
+                      {% endif %}
+                      <div class="form-outline w-100">
+                        <form method="post">
+                          {% csrf_token %}
+                          <textarea class="form-control" id="textAreaExample" rows="4"
+                          style="background: #fff;" name="content" ></textarea>
+                          <label class="form-label" for="textAreaExample">Message</label>
+                          <div class="float-end mt-2 pt-1">
+                              <button type="submit" class="btn btn-primary btn-sm">Post comment</button>
+                              <button type="button" class="btn btn-outline-primary btn-sm">Cancel</button>
+                          </div>
+                        </form>
                       </div>
-                    </form>
+                    </div>
                   </div>
-                </div>
-              </div>
 
+                  {% for comment in comments %}
+                    <div class="d-flex flex-start align-items-center">
+                      {% if comment.user.user_profile.profile_pic %}
+                      <img class="rounded-circle shadow-1-strong me-3"
+                        src="/media/{{ comment.user.user_profile.profile_pic }}" alt="avatar" width="60"
+                        height="60" />
+                      {% else %}
+                        <img src="/media/profile_pics/m.jpg" alt="avatar" width="60"
+                        height="60" />
+                      {% endif %}
+                      <div>
+                        <h6 class="fw-bold text-primary mb-1"><a style="text-decoration: none;" href="{% url 'accounts:user' username=comment.user %}">{{ comment.user.username }}</a></h6>
+                        <p class="text-muted small mb-0">
+                          {{ comment.date_created }}
+                        </p>
+                      </div>
+                    </div>
 
-
-            {% for comment in comments %}
-                <div class="d-flex flex-start align-items-center">
-                  <img class="rounded-circle shadow-1-strong me-3"
-                    src="/media/{{ comment.user.user_profile.profile_pic }}" alt="avatar" width="60"
-                    height="60" />
-                  <div>
-                    <h6 class="fw-bold text-primary mb-1">{{ comment.user.username }}</h6>
-                    <p class="text-muted small mb-0">
-                      {{ comment.date_created }}
+                    <p class="mt-3 mb-4 pb-2">
+                      {{ comment.content }}
                     </p>
-                  </div>
-                </div>
 
-                <p class="mt-3 mb-4 pb-2">
-                  {{ comment.content }}
-                </p>
-
-                <div class="small d-flex justify-content-start">
-                  <a href="#!" class="d-flex align-items-center me-3">
-                    <i class="far fa-thumbs-up me-2"></i>
-                    <p class="mb-0">Like</p>
-                  </a>
-                  <a href="#!" class="d-flex align-items-center me-3">
-                    <i class="far fa-comment-dots me-2"></i>
-                    <p class="mb-0">Comment</p>
-                  </a>
-                  <a href="#!" class="d-flex align-items-center me-3">
-                    <i class="fas fa-share me-2"></i>
-                    <p class="mb-0">Share</p>
-                  </a>
-                </div>
-            {% endfor %}
+                    <div class="small d-flex justify-content-start">
+                      <a href="#!" class="d-flex align-items-center me-3">
+                        <i class="far fa-thumbs-up me-2"></i>
+                        <p class="mb-0">Like</p>
+                      </a>
+                      <a href="#!" class="d-flex align-items-center me-3">
+                        <i class="far fa-comment-dots me-2"></i>
+                        <p class="mb-0">Comment</p>
+                      </a>
+                      <a href="#!" class="d-flex align-items-center me-3">
+                        <i class="fas fa-share me-2"></i>
+                        <p class="mb-0">Share</p>
+                      </a>
+                    </div>
+                {% endfor %}
+              </div>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-  </div>
-</section>
+    </section>
+</div>
+
 {% endblock %}
