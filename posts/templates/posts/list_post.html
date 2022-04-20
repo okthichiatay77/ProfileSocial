@@ -6,7 +6,7 @@
 {% endblock %}
 
 {% block content %}
-    <h1>List Post</h1>
+    <h1>My Follow</h1>
     {% if search %}
         {% for user in result %}
             <div class="row">
@@ -18,7 +18,7 @@
                     {% endif %}
                 </div>
                 <div class="col-sm-10">
-                    <a href='{% url "accounts:user" username=user.username %}'><h6>{{ user.username }}</h6></a>
+                    <a class="nav nav-link" href='{% url "accounts:user" username=user.username %}'><h6>{{ user.username }}</h6></a>
                     <h6>{{ user.user_profile.full_name }}</h6>
                 </div>
             </div>
@@ -34,18 +34,30 @@
                             {% else %}
                                 <img src="/media/profile_pics/m.jpg" width="75px" height="75px" class="rounded-circle">
                             {% endif %}
-                            <a href="{% url 'accounts:user' username=post.author %}">{{ post.author }}</a>
+                            <a style="text-decoration: none;" href="{% url 'accounts:user' username=post.author %}">{{ post.author }}</a>
+                            <br>
                         </div>
                         <br>
-                        <img src="/media/{{ post.image }}" width="100%">
+                        <img src="/media/{{ post.image }}" width=" 100%">
                         <div style="padding: 20px;">
-                            <h3>{{ post.caption }}</h3>
-                            <p>{{ post.liked.count }}</p>
-                            {% if post.pk in liked_post_list %}
-                                <a href="{% url 'posts:unliked' pk=post.pk %}"><i class="fa-solid fa-thumbs-up" style="font-size: 36px;"></i></a>
-                            {% else %}
-                                <a href="{% url 'posts:liked' pk=post.pk %}"><i class="fa-solid fa-thumbs-down" style="font-size: 36px;"></i></a>
-                            {% endif %}
+                            Like: {{ post.count_liked }}
+                            <h2>{{ post.caption }}&nbsp;&nbsp;<a href="{% url 'posts:detail_post' pk=post.pk %}"><button class="btn btn-success">Detail</button></a></h2>
+                            <i><strong>Upload date:</strong> {{ post.upload_date }}</i>
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    {% if post.pk in liked_post_list %}
+                                        <a class="nav-link" href="{% url 'posts:unliked' pk=post.pk %}" target="_parent"><i class="fa-solid fa-thumbs-down" style="font-size: 36px;"></i>UnLike</a>
+                                    {% else %}
+                                        <a class="nav-link" href="{% url 'posts:liked' pk=post.pk %}" target="_parent"><i class="fa-solid fa-thumbs-up" style="font-size: 36px;"></i>Like</a>
+                                    {% endif %}
+                                </div>
+                                <div class="col-sm-4">
+                                    <a class="col-sm-9 nav-link"><i class="fa-solid fa-comments" style="font-size: 36px;
+                                    text-decoration: none;"></i>Comments</a>
+                                </div>
+                            </div>
+
+
                         </div>
                     </div>
                 {% endfor %}

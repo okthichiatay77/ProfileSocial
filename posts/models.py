@@ -9,8 +9,15 @@ class Post(models.Model):
     upload_date = models.DateTimeField(auto_now_add=True)
     update_date = models.DateTimeField(auto_now=True)
 
+
     class Meta:
         ordering = ['-upload_date',]
+
+    def count_liked(self):
+        return self.liked_post.count()
+
+    def count_comments(self):
+        return self.post_comment.count()
 
 class Like(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='liked_post')
@@ -19,4 +26,11 @@ class Like(models.Model):
 
     def __str__(self):
         return "{} : {}".format(self.user, self.post)
+
+
+class Comment(models.Model):
+    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='post_comment')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user_comment')
+    content = models.CharField(max_length=2000)
+    date_created = models.DateTimeField(auto_now_add=True)
 

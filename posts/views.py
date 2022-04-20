@@ -4,13 +4,15 @@ from .models import Post
 from django.http import HttpResponseRedirect
 from django.contrib.auth.models import User
 # Create your views here.
-from .models import Post, Like
+from .models import Post, Like, Comment
 from django.contrib.auth.decorators import login_required
 from accounts.models import Follow, UserProfile
+from .forms import CommentForm
 
 
 def home(request):
-    return render(request, 'posts/home.html')
+    posts = Post.objects.all()
+    return render(request, 'posts/home.html', context={'posts':posts})
 
 @login_required
 def list_post(request):
@@ -46,3 +48,15 @@ def unliked(request, pk):
     already_liked = Like.objects.filter(post=post, user=request.user)
     already_liked.delete()
     return HttpResponseRedirect(reverse('posts:list_post'))
+
+
+def detail_post(request, pk):
+    post = Post.objects.get(pk=pk)
+    comments = Comment.objects.all()
+    if request.method == 'POST':
+        content = request.POST['content']
+        comment = Comment.objects.create(post=post, user=request.user, content=content)
+        comment.save()
+        return HttpResponseRedirect(reverse('posts:detail_post', kwargs={'pk':pk}))
+
+    return render(request, 'posts/detail_post.html', context={'post':post,'comments':comments})
