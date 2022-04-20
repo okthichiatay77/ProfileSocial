@@ -90,8 +90,8 @@
 <div class="row">
     {% for i in user.post.all %}
         <div class="crop">
+            <a href="{% url 'posts:detail_post' pk=i.pk %}">{{ i.caption }}</a>
             <img src="/media/{{ i.image }}">
-            {{ i.caption }}
         </div>
     {% endfor %}
 </div>

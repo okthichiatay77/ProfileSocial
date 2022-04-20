@@ -42,7 +42,7 @@
                     <p>You don't have an Account? <a href="{% url 'accounts:signup' %}">Sign Up</a></p>
                     <p class="text-center fw-bold mx-3 mb-0 text-muted">OR</p>
                     <a href="{% provider_login_url 'google' method='oauth2' %}"><button class="btn btn-danger" style="width: 100%">Continue with Google</button></a><br>
-                    <a href="{% provider_login_url 'facebook' method='oauth2' %}"><button type="button" class="btn btn-primary" style="width: 100%">Continue with Facebook</button></a>
+                    <a href="{% provider_login_url 'facebook' method='js_sdk' %}"><button type="button" class="btn btn-primary" style="width: 100%">Continue with Facebook</button></a>
                 </div>
 
         </div>

@@ -52,7 +52,7 @@ def unliked(request, pk):
 
 def detail_post(request, pk):
     post = Post.objects.get(pk=pk)
-    comments = Comment.objects.all()
+    comments = Comment.objects.filter(post=post)
     if request.method == 'POST':
         content = request.POST['content']
         comment = Comment.objects.create(post=post, user=request.user, content=content)

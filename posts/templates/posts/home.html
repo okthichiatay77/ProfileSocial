@@ -25,7 +25,7 @@
                 <br>
                 <img src="/media/{{ post.image }}" width=" 100%">
                 <div style="padding: 20px;">
-                    Like: {{ post.count_liked }}
+                    Likes: {{ post.count_liked }}&nbsp;&nbsp;Comments:{{ post.count_comments }}
                     <h2>{{ post.caption }}&nbsp;&nbsp;<a href="{% url 'posts:detail_post' pk=post.pk %}"><button class="btn btn-success">Detail</button></a></h2>
                     <small><strong>Upload date:</strong> {{ post.upload_date }}</small>
                     <div class="row">

@@ -31,9 +31,8 @@ class Comment(models.Model):
 
 
 class Like(models.Model):
-    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='liked_post', blank=True)
-    comment = models.ForeignKey(Comment, on_delete=models.CASCADE, related_name='liked_comment', blank=True)
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='liked')
+    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='liked_post')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user_liked')
     date_created = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
