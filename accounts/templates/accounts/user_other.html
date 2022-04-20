@@ -1,0 +1,98 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block css_block %}
+<style>
+.crop {
+    width: 200px;
+    height: 200px;
+    overflow: hidden;
+}
+.crop img {
+    width: 400px;
+    height: 300px;
+    margin: -85px 0 0 - 110px;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+    <h1>Profile</h1>
+    <div class="row">
+        <div class="col-sm-4">
+            <center>
+                {% if user.user_profile.profile_pic %}
+                    <img src="/media/{{ user.user_profile.profile_pic }}" width="220px" height="220px" class="rounded-circle" />
+                {% else %}
+                    <img src="/media/profile_pics/m.jpg" width="220px" height="220px" class="rounded-circle">
+                {% endif %}
+                <br><br>
+                <a class="btn btn-info" href="{% url 'accounts:edit' %}">Edit Profile</a>
+                <br><br>
+
+            </center>
+        </div>
+        <div class="col-sm-8">
+
+
+            <h3>{{ user.username }}&nbsp;
+                {% if not already_followed %}
+                    <a href="{% url 'accounts:follow' username=user.username %}" class="btn btn-primary">Follow</a>
+                {% else %}
+                    <a href="{% url 'accounts:unfollow' username=user.username %}" class="btn btn-primary">Unfollow</a>
+                {% endif %}
+
+            </h3>
+            <h4>{{ user.post.count }} Posts &nbsp;&nbsp; {{ user.follower.count }} Followers &nbsp;&nbsp;
+                {{ user.following.count }} Following &nbsp;&nbsp;</h4>
+            <br>
+            <h4>{{ user.user_profile.full_name }}</h4>
+            <h6>Introduction: {{ user.user_profile.description }}</h6>
+        </div>
+    </div>
+
+
+
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
+                  Open modal
+</button>
+<!-- The Modal -->
+<div class="modal" id="myModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h4 class="modal-title">Modal Heading</h4>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+
+      <!-- Modal body -->
+      <div class="modal-body">
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn btn-info btn-sm">Post Photo</button>
+        </form>
+      </div>
+
+      <!-- Modal footer -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+<br><br>
+<div class="row">
+    {% for i in user.post.all %}
+        <div class="crop">
+            <img src="/media/{{ i.image }}">
+            {{ i.caption }}
+        </div>
+    {% endfor %}
+</div>
+{% endblock %}

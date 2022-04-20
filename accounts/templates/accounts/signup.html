@@ -1,0 +1,34 @@
+{% extends 'not_navbar.html' %}
+{% load crispy_forms_tags %}
+
+{% block css_block %}
+<style>
+.sign_up{
+    width: 550px;
+    border: 1px solid #ccc;
+    padding: 50px;
+}
+.login{
+    width: 550px;
+    border: 1px solid #ccc;
+    padding: 40px;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+    <center>
+        <div class="sign_up">
+            <h1>{{ title }}</h1>
+            <form method="post">
+                {% csrf_token %}
+                {{ form|crispy }}
+                <button type="submit" style="width: 100%" class="btn btn-info btn-sm">Sign Up</button>
+            </form>
+        </div>
+
+        <div class="login">
+            <p>Have an Account? <a href="{% url 'accounts:login' %}">login</a></p>
+        </div>
+    </center>
+{% endblock %}
