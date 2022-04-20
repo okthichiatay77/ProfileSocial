@@ -19,8 +19,20 @@ class Post(models.Model):
     def count_comments(self):
         return self.post_comment.count()
 
+class Comment(models.Model):
+    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='post_comment')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user_comment')
+    content = models.CharField(max_length=2000)
+    date_created = models.DateTimeField(auto_now_add=True)
+
+
+    def __str__(self):
+        return self.user
+
+
 class Like(models.Model):
-    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='liked_post')
+    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='liked_post', blank=True)
+    comment = models.ForeignKey(Comment, on_delete=models.CASCADE, related_name='liked_comment', blank=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='liked')
     date_created = models.DateTimeField(auto_now_add=True)
 
@@ -28,9 +40,4 @@ class Like(models.Model):
         return "{} : {}".format(self.user, self.post)
 
 
-class Comment(models.Model):
-    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='post_comment')
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user_comment')
-    content = models.CharField(max_length=2000)
-    date_created = models.DateTimeField(auto_now_add=True)
 
