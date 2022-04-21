@@ -1,11 +1,12 @@
 from django.shortcuts import render
 from django.urls import reverse
-from .models import Post
 from django.http import HttpResponseRedirect
 from django.contrib.auth.models import User
-# Create your views here.
-from .models import Post, Like, Comment
 from django.contrib.auth.decorators import login_required
+# Create your views here.
+
+
+from .models import Post, Like, Comment
 from accounts.models import Follow, UserProfile
 from .forms import CommentForm
 

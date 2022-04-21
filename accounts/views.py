@@ -5,11 +5,14 @@ from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.sites.shortcuts import get_current_site
+from django.contrib.auth.models import User
+
+
 from django.utils.encoding import force_str, force_bytes
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.template.loader import render_to_string
-from django.contrib.auth.models import User
 from django.core.mail import EmailMessage
+
 
 from .tokens import account_activation_token
 from .forms import *
@@ -17,6 +20,9 @@ from .models import UserProfile, Follow
 
 from posts.forms import CreatePost
 # Create your views here.
+
+
+
 
 def signup_view(request):
     form = CreateNewUser()
@@ -84,15 +90,16 @@ def profile_view(request):
 
 @login_required
 def edit_profile(request):
-    current_user = UserProfile.objects.get(user=request.user)
-    form = EditProfile(instance=current_user)
+    current_user = request.user
+    profile = UserProfile.objects.get(user= current_user)
+    form = EditProfile(instance=profile)
 
     if request.method == 'POST':
-        form = EditProfile(request.POST, request.FILES, instance=current_user)
+        form = EditProfile(request.POST, request.FILES, instance=profile)
 
         if form.is_valid():
             form.save(commit=True)
-            form = EditProfile(instance=current_user)
+            form = EditProfile(instance=profile)
             return HttpResponseRedirect(reverse('accounts:profile'))
 
 
