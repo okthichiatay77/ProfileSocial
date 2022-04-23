@@ -9,4 +9,6 @@ urlpatterns = [
     path('liked/<int:pk>/', liked, name='liked'),
     path('unliked/<int:pk>/', unliked, name='unliked'),
     path('detail/<int:pk>/', detail_post, name='detail_post'),
+    path('liked-comment/<int:pk>/', liked_comment, name='liked_comment'),
+    #path('unliked-comment/<int:pk>/', unliked_comment, name='unliked_comment'),
 ]

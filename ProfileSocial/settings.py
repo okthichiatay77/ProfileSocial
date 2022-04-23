@@ -34,14 +34,15 @@ ALLOWED_HOSTS = []
 
 
 
-AUTHENTICATION_BACKEND = [
+"""AUTHENTICATION_BACKEND = [
     'django.contrib.auth.backends.ModelBackend',
     'allauth.account.auth_backends.AuthenticationBackend',
 ]
 
-"""    'social_core.backends.facebook.FacebookOAuth2',
+   'social_core.backends.facebook.FacebookOAuth2',
     'social_core.backends.github.GithubOAuth2',
     'social_core.backends.google.GoogleOAuth2',"""
+
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -83,7 +84,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'social_django.middleware.SocialAuthExceptionMiddleware',
+    #'social_django.middleware.SocialAuthExceptionMiddleware',
 ]
 
 ROOT_URLCONF = 'ProfileSocial.urls'
@@ -101,8 +102,8 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'django.template.context_processors.request',
-                'social_django.context_processors.backends',  # <-- Here
-                'social_django.context_processors.login_redirect',
+                #'social_django.context_processors.backends',  # <-- Here
+                #'social_django.context_processors.login_redirect',
             ],
         },
     },

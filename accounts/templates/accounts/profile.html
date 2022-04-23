@@ -87,7 +87,7 @@
 <div class="row" style="background-color: bisque">
 {% for i in user.post.all %}
         <div class="crop">
-            <h6>{{ i.caption }}</h6>
+            <a href="{% url 'posts:detail_post' pk=i.pk %}"><h6>{{ i.caption }}</h6></a>
             <img class="rounded" src="/media/{{ i.image }}">
 
         </div>
