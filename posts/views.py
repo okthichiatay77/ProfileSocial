@@ -3,8 +3,6 @@ from django.urls import reverse
 from django.http import HttpResponseRedirect
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
-# Create your views here.
-
 
 from .models import Post, Like, Comment
 from accounts.models import Follow, UserProfile
@@ -28,7 +26,20 @@ def list_post(request):
         result = User.objects.filter(username__icontains=search)
 
 
-    return render(request, 'posts/list_post.html', {'search':search, 'result':result, 'posts':posts, 'liked_post_list':liked_post_list})
+    return render(request, 'posts/list_post.html', {'search':search, 'result':result, 'posts':posts,
+                                                    'liked_post_list':liked_post_list})
+
+
+def detail_post(request, pk):
+    post = Post.objects.get(pk=pk)
+    comments = Comment.objects.filter(post=post)
+    if request.method == 'POST':
+        content = request.POST['content']
+        comment = Comment.objects.create(post=post, user=request.user, content=content)
+        comment.save()
+        return HttpResponseRedirect(reverse('posts:detail_post', kwargs={'pk':pk}))
+
+    return render(request, 'posts/detail_post.html', context={'post':post,'comments':comments})
 
 
 @login_required
@@ -50,14 +61,3 @@ def unliked(request, pk):
     already_liked.delete()
     return HttpResponseRedirect(reverse('posts:list_post'))
 
-
-def detail_post(request, pk):
-    post = Post.objects.get(pk=pk)
-    comments = Comment.objects.filter(post=post)
-    if request.method == 'POST':
-        content = request.POST['content']
-        comment = Comment.objects.create(post=post, user=request.user, content=content)
-        comment.save()
-        return HttpResponseRedirect(reverse('posts:detail_post', kwargs={'pk':pk}))
-
-    return render(request, 'posts/detail_post.html', context={'post':post,'comments':comments})
