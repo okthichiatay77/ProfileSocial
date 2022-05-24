@@ -3,8 +3,10 @@ from django.urls import reverse
 from django.http import HttpResponseRedirect
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
+# Create your views here.
 
-from .models import *
+
+from .models import Post, Like, Comment
 from accounts.models import Follow, UserProfile
 from .forms import CommentForm
 
@@ -26,20 +28,7 @@ def list_post(request):
         result = User.objects.filter(username__icontains=search)
 
 
-    return render(request, 'posts/list_post.html', {'search':search, 'result':result, 'posts':posts,
-                                                    'liked_post_list':liked_post_list})
-
-
-def detail_post(request, pk):
-    post = Post.objects.get(pk=pk)
-    comments = Comment.objects.filter(post=post)
-    if request.method == 'POST':
-        content = request.POST['content']
-        comment = Comment.objects.create(post=post, user=request.user, content=content)
-        comment.save()
-        return HttpResponseRedirect(reverse('posts:detail_post', kwargs={'pk':pk}))
-
-    return render(request, 'posts/detail_post.html', context={'post':post,'comments':comments})
+    return render(request, 'posts/list_post.html', {'search':search, 'result':result, 'posts':posts, 'liked_post_list':liked_post_list})
 
 
 @login_required
@@ -55,17 +44,6 @@ def liked(request, pk):
 
 
 @login_required
-def liked_comment(request, pk):
-    comment = Comment.objects.get(pk=pk)
-    already_liked = LikeOfComment.objects.filter(comment=comment, user=request.user)
-
-    if not already_liked:
-        like_comment = LikeOfComment(comment=comment, user=request.user)
-        like_comment.save()
-
-    return HttpResponseRedirect(reverse('posts:detail_post', kwargs={'pk':pk}))
-
-@login_required
 def unliked(request, pk):
     post = Post.objects.get(pk=pk)
     already_liked = Like.objects.filter(post=post, user=request.user)
@@ -73,10 +51,13 @@ def unliked(request, pk):
     return HttpResponseRedirect(reverse('posts:list_post'))
 
 
-"""@login_required
-def unliked_comment(request, pk):
-    comment = Comment.objects.get(pk=pk)
-    already_liked = LikeOfComment.objects.filter(comment=comment, user=request.user)
-    already_liked.delete()
-    return HttpResponseRedirect(reverse('posts:list_post'))"""
+def detail_post(request, pk):
+    post = Post.objects.get(pk=pk)
+    comments = Comment.objects.filter(post=post)
+    if request.method == 'POST':
+        content = request.POST['content']
+        comment = Comment.objects.create(post=post, user=request.user, content=content)
+        comment.save()
+        return HttpResponseRedirect(reverse('posts:detail_post', kwargs={'pk':pk}))
 
+    return render(request, 'posts/detail_post.html', context={'post':post,'comments':comments})
