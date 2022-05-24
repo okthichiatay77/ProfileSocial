@@ -26,57 +26,74 @@
 {% else %}
     <div class="row">
         <div class="col-sm-8">
-        {% for post in posts %}
-            <div style="border: 1px solid black; border-radius: 10px; background-color: peachpuff">
-                <div style="border: 1px solid deepskyblue; border-radius: 10px">
-                    {% if post.author.user_profile.profile_pic %}
-                        <img src="/media/{{ post.author.user_profile.profile_pic }}" width="75px" height="75px" class="rounded-circle">
-                        <a style="text-decoration: none;" href="{% url 'accounts:user' username=post.author %}">{{ post.author }}</a>
-                    {% else %}
-                        <img src="/media/profile_pics/m.jpg" width="75px" height="75px" class="rounded-circle">
-                        <a style="text-decoration: none;" href="{% url 'accounts:user' username=post.author %}">{{ post.author }}</a>
-                    {% endif %}
-                    <br>
-                </div>
-                <br>
-                <img src="/media/{{ post.image }}" width=" 100%">
-                <div style="padding: 20px;">
-                    Likes: {{ post.count_liked }}&nbsp;&nbsp;Comments:{{ post.count_comments }}
-                    <h2>{{ post.caption }}&nbsp;&nbsp;<a href="{% url 'posts:detail_post' pk=post.pk %}"><button class="btn btn-success">Detail</button></a></h2>
-                    <small><strong>Upload date:</strong> {{ post.upload_date }}</small>
-                    <div class="row" style="border: 1px solid black; border-radius: 10px;background-color: cyan">
-                        <div class="small d-flex justify-content-start">
-                            <div class="col-sm-5">
-                                {% if post.pk in liked_post_list %}
-                                    <a href="{% url 'posts:unliked' pk=post.pk %}" class="d-flex align-items-center me-3">
-                                        <i class="far fa-thumbs-down me-2"></i>
-                                        <p class="mb-0">UnLike</p>
-                                    </a>
-                                {% else %}
-                                    <a href="{% url 'posts:liked' pk=post.pk %}" class="d-flex align-items-center me-3">
-                                        <i class="far fa-thumbs-up me-2"></i>
-                                        <p class="mb-0">Like</p>
-                                    </a>
-                                {% endif %}
+            {% for post in posts %}
+                <div style="border-radius: 5px; background-color: white">
+                    <div style="border-radius: 5px">
+                            <div style="border-radius: 5px">
+                            {% if post.author.user_profile.profile_pic %}
+                                <img src="/media/{{ post.author.user_profile.profile_pic }}" width="65px" height="65px" class="rounded-circle">
+                                <a style="text-decoration: none; color: black" href="{% url 'accounts:user' username=post.author %}">{{ post.author }}</a>
+                            {% else %}
+                                <img src="/media/profile_pics/m.jpg" width="65px" height="65px" class="rounded-circle">
+                                <a style="text-decoration: none;" href="{% url 'accounts:user' username=post.author %}">{{ post.author }}</a>
+                            {% endif %}
+                            <br>
+                        </div>
+                        <p>{{ post.caption }}</p>
+                        <br>
+                        <a href="{% url 'posts:detail_post' pk=post.pk %}">
+                            <img src="/media/{{ post.image }}" width=" 100%">
+                        </a>
+                        <div style="padding: 20px;">
+                            <div class="row">
+                                <div class="col"></div>
                             </div>
+                            Likes: {{ post.count_liked }}&nbsp;&nbsp;Comments:{{ post.count_comments }}
+                            <hr>
+                            <div class="row" style="">
+                                <div class="small d-flex justify-content-start">
+                                    <div class="col-sm-5">
+                                        {% if post.pk in liked_post_list %}
 
-                            <div class=col-sm-5>
-                                <a href="{% url 'posts:detail_post' pk=post.pk %}" class="d-flex align-items-center me-3">
-                                    <i class="far fa-comment-dots me-2"></i>
-                                    <p class="mb-0">Comment</p>
-                                </a>
-                            </div>
-                            <div class="col-sm-12">
-                                <a href="#!" class="d-flex align-items-center me-3">
-                                    <i class="fas fa-share me-2"></i>
-                                    <p class="mb-0">Share</p>
-                                </a>
+                                            <a style="text-decoration: none; color: black" href="{% url 'posts:unliked' pk=post.pk %}" class="d-flex align-items-center me-3" target="_self">
+
+                                            <a style="text-decoration: none; color: black" href="{% url 'posts:unliked' pk=post.pk %}" class="d-flex align-items-center me-3">
+
+                                                <i class="far fa-thumbs-down me-2"></i>
+                                                <p class="mb-0">UnLike</p>
+                                            </a>
+                                        {% else %}
+
+                                            <a style="text-decoration: none; color: black" href="{% url 'posts:liked' pk=post.pk %}" class="d-flex align-items-center me-3" target="_self">
+
+                                            <a style="text-decoration: none; color: black" href="{% url 'posts:liked' pk=post.pk %}" class="d-flex align-items-center me-3">
+
+                                                <i class="far fa-thumbs-up me-2"></i>
+                                                <p class="mb-0">Like</p>
+                                            </a>
+                                        {% endif %}
+                                    </div>
+
+                                    <div class=col-sm-5>
+                                        <a style="text-decoration: none; color: black" href="{% url 'posts:detail_post' pk=post.pk %}" class="d-flex align-items-center me-3">
+                                            <i class="far fa-comment-dots me-2"></i>
+                                            <p class="mb-0">Comment</p>
+                                        </a>
+                                    </div>
+                                    <div class="col-sm-12">
+                                        <a style="text-decoration: none; color: black" href="#!" class="d-flex align-items-center me-3">
+                                            <i class="fas fa-share me-2"></i>
+                                            <p class="mb-0">Share</p>
+                                        </a>
+                                    </div>
+                                </div>
                             </div>
                         </div>
+
                     </div>
                 </div>
-            </div>
-        {% endfor %}
+                <hr>
+            {% endfor %}
         </div>
 
 
