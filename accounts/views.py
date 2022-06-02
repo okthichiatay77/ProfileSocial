@@ -103,7 +103,7 @@ def edit_profile(request):
             return HttpResponseRedirect(reverse('accounts:profile'))
 
 
-    return render(request, 'accounts/edit_profile.html  ', context={'form':form, 'current_user':current_user})
+    return render(request, 'accounts/edit_profile.html', context={'form':form, 'current_user':current_user})
 
 
 @login_required

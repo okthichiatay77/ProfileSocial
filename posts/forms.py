@@ -9,6 +9,7 @@ class CreatePost(forms.ModelForm):
         fields = [
             'image',
             'caption',
+            'content'
         ]
 
 class CommentForm(forms.ModelForm):

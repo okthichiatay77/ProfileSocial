@@ -15,6 +15,7 @@ class UserProfile(models.Model):
     description = models.TextField(blank=True)
     full_name = models.CharField(max_length=200, blank=True)
     dob = models.DateField(blank=True, null=True)
+    address = models.CharField(max_length=200, blank=True)
     website = models.URLField(blank=True)
     facebook = models.URLField(blank=True)
 
