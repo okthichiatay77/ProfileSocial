@@ -118,7 +118,7 @@ def user(request, username):
     already_followed = Follow.objects.filter(follower=request.user, following=user)
     if user == request.user:
         return HttpResponseRedirect(reverse('accounts:profile'))
-    return render(request, 'accounts/user_other.html', {'user':user, 'already_followed':already_followed})
+    return render(request, 'accounts/user_other.html', {'user_other':user, 'already_followed':already_followed})
 
 
 def activate(request, uidb64, token):
