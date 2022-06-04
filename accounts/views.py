@@ -78,6 +78,7 @@ def login_view(request):
 @login_required
 def profile_view(request):
     form = CreatePost()
+
     if request.method == 'POST':
         form = CreatePost(request.POST, request.FILES)
         if form.is_valid():

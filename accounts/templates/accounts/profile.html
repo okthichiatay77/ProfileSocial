@@ -14,7 +14,6 @@
         margin: -85px 0 0 - 110px;
     }
 {% endblock %}
-
 {% block title %}
     Profile
 {% endblock %}
@@ -134,7 +133,7 @@
                         <div class="w3-container w3-padding">
                             <h6 class="w3-opacity">Social Media template</h6>
                             <p contenteditable="true" class="w3-border w3-padding">What are you thinking?</p>
-                            <button type="button" class="w3-button w3-theme"><i class="fa fa-pencil"></i>  Post</button>
+                            <button type="button" class="w3-button w3-theme" data-bs-toggle="modal" data-bs-target="#myModal"><i class="fa fa-pencil"></i>  Post</button>
                         </div>
                     </div>
                 </div>
@@ -146,6 +145,18 @@
                     {% else %}
                         <img src="/media/profile_pics/m.jpg" alt="Avatar" class="w3-left w3-circle w3-margin-right" style="width:60px;height: 60px">
                     {% endif %}
+                    <span class="w3-right w3-opacity">
+                        <div class="w3-container">
+                          <div class="w3-dropdown-click">
+                            <button onclick="MyDropDown()" class="w3-button w3-white"><img width="20px" height="20px" src="/media/images/3d.png"></button>
+                            <div id="Demo" class="w3-dropdown-content w3-bar-block w3-border">
+                              <a href="{% url 'posts:update_post' pk=post.pk %}" class="w3-bar-item w3-button">Edit post</a>
+                              <a href="{% url 'posts:delete_post' pk=post.pk %}" class="w3-bar-item w3-button">Delete post</a>
+                              <a href="#" class="w3-bar-item w3-button">Just of me</a>
+                            </div>
+                          </div>
+                        </div>
+                    </span>
                     <span class="w3-right w3-opacity">{{ post.upload_date|date:'d-m-Y' }}</span>
                     <h4>{{ post.author }}</h4><br>
                     <hr class="w3-clear">
@@ -224,6 +235,16 @@
                 x.className = x.className.replace(" w3-show", "");
             }
             }
+
+            function MyDropDown() {
+              var x = document.getElementById("Demo");
+              if (x.className.indexOf("w3-show") == -1) {
+                x.className += " w3-show";
+              } else {
+                x.className = x.className.replace(" w3-show", "");
+              }
+            }
+
         </script>
     </body>
 
@@ -255,4 +276,6 @@
         </div>
       </div>
     </div>
+
+
 {% endblock %}

@@ -47,6 +47,11 @@
                 <div class="col-sm-8">
                     <br>
                     <h3>{{ user_other.username }}</h3>
+                    {% if not already_followed %}
+                        <a href="{% url 'accounts:follow' username=user_other.username %}" class="btn btn-primary">Follow</a>
+                    {% else %}
+                        <a href="{% url 'accounts:unfollow' username=user_other.username %}" class="btn btn-primary">Unfollow</a>
+                    {% endif %}
                     <h4>{{ user_other.post.count }} Posts &nbsp;&nbsp; {{ user_other.follower.count }} Followers &nbsp;&nbsp;
                         {{ user_other.following.count }} Following &nbsp;&nbsp;</h4>
                     <br>

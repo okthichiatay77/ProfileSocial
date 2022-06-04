@@ -110,7 +110,7 @@
                         <div class="w3-container w3-padding">
                             <h6 class="w3-opacity">Social Media template</h6>
                             <p contenteditable="true" class="w3-border w3-padding">What are you thinking?</p>
-                            <button type="button" class="w3-button w3-theme"><i class="fa fa-pencil"></i>  Post</button>
+                            <button type="button" class="w3-button w3-theme" data-bs-toggle="modal" data-bs-target="#myModal"><i class="fa fa-pencil"></i>  Post</button>
                         </div>
                     </div>
                 </div>
@@ -138,7 +138,12 @@
                     <hr>
                         Comments: {{ post.count_comments }} &nbsp; Likes: {{ post.count_liked }}
                     <hr>
-                    <button type="button" class="w3-button w3-theme-d1 w3-margin-bottom"><i class="fa fa-thumbs-up"></i>  Like</button>
+                    {% if user.user_liked in liked_post %}
+                        <a href="{% url 'posts:unliked' pk=post.pk %}" class="w3-button w3-theme-d1 w3-margin-bottom"><i class="fa fa-thumbs-down"></i> UnLike</a>
+                    {% else %}
+                        <a href="{% url 'posts:liked' pk=post.pk %}" class="w3-button w3-theme-d1 w3-margin-bottom"><i class="fa fa-thumbs-up"></i>  Like</a>
+                    {% endif %}
+{#                    <button type="button" class="w3-button w3-theme-d1 w3-margin-bottom"><i class="fa fa-thumbs-up"></i>  Like</button>#}
                     <button type="button" class="w3-button w3-theme-d2 w3-margin-bottom"><i class="fa fa-comment"></i>  Comment</button>
                 </div>
             {% endfor %}
@@ -223,7 +228,34 @@ function openNav() {
   }
 }
 </script>
+    <!-- The Modal -->
+    <div class="modal" id="myModal">
+      <div class="modal-dialog">
+        <div class="modal-content">
 
+          <!-- Modal Header -->
+          <div class="modal-header">
+            <h4 class="modal-title">Post Blog</h4>
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+          </div>
+
+          <!-- Modal body -->
+          <div class="modal-body">
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" class="btn btn-info btn-sm">Post Photo</button>
+            </form>
+          </div>
+
+          <!-- Modal footer -->
+          <div class="modal-footer">
+            <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+          </div>
+
+        </div>
+      </div>
+    </div>
 </body>
 {% endblock %}
 

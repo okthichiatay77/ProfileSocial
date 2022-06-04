@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="w3-card w3-round w3-white">
+        <div class="w3-container">
+            <center><h1>Edit Post</h1></center>
+            <hr>
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <h1>Are you sure delete this post</h1>
+                <button type="submit" class="btn btn-warning btn-sm">Delete</button>
+            </form>
+        </div>
+    </div>
+{% endblock %}
