@@ -161,9 +161,15 @@
                     <h4>{{ post.author }}</h4><br>
                     <hr class="w3-clear">
                     <p>{{ post.caption }}</p>
+                    {% if post.image %}
                     <a href="{% url 'posts:detail_post' pk=post.pk %}">
                         <img src="/media/{{ post.image }}" style="width:100%" class="w3-margin-bottom">
                     </a>
+                    {% else %}
+                        <video style="width:100%" class="w3-margin-bottom" controls>
+                          <source src="/media/{{ post.video }}" type="video/mp4">
+                        </video>
+                    {% endif %}
                     {% if post.contet %}
                         <p>{{ post.content }}</p>
                     {% else %}

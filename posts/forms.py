@@ -8,6 +8,7 @@ class CreatePost(forms.ModelForm):
         model = Post
         fields = [
             'image',
+            'video',
             'caption',
             'content'
         ]

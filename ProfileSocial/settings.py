@@ -59,6 +59,7 @@ INSTALLED_APPS = [
     'crispy_forms',
     'fontawesomefree',
 
+
     #authenticate
     'allauth',
     'allauth.account',

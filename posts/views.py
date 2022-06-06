@@ -14,7 +14,15 @@ from .forms import CommentForm, CreatePost
 
 def home(request):
     posts = Post.objects.all()
-    return render(request, 'posts/home.html', context={'posts':posts})
+    if request.method == 'POST':
+        form = CreatePost(request.FILES, request.POST)
+        if form.is_valid():
+            data = form.save(commit=False)
+            data.author = request.user
+            data.save()
+    else:
+        form = CreatePost()
+    return render(request, 'posts/home.html', context={'posts':posts, 'form':form})
 
 @login_required
 def list_post(request):
