@@ -148,7 +148,7 @@
                     <hr>
                         Comments: {{ post.count_comments }} &nbsp; Likes: {{ post.count_liked }}
                     <hr>
-                    {% if user.user_liked in liked_post %}
+                    {% if post.pk in liked_post_list %}
                         <a href="{% url 'posts:unliked' pk=post.pk %}" class="w3-button w3-theme-d1 w3-margin-bottom"><i class="fa fa-thumbs-down"></i> UnLike</a>
                     {% else %}
                         <a href="{% url 'posts:liked' pk=post.pk %}" class="w3-button w3-theme-d1 w3-margin-bottom"><i class="fa fa-thumbs-up"></i>  Like</a>

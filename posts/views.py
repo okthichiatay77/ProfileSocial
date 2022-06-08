@@ -14,6 +14,8 @@ from .forms import CommentForm, CreatePost
 
 def home(request):
     posts = Post.objects.all()
+    liked_post = Like.objects.filter(user=request.user)
+    liked_post_list = liked_post.values_list('post', flat=True)
     if request.method == 'POST':
         form = CreatePost(request.FILES, request.POST)
         if form.is_valid():
@@ -22,7 +24,7 @@ def home(request):
             data.save()
     else:
         form = CreatePost()
-    return render(request, 'posts/home.html', context={'posts':posts, 'form':form})
+    return render(request, 'posts/home.html', context={'posts':posts, 'form':form, 'liked_post_list': liked_post_list})
 
 @login_required
 def list_post(request):
