@@ -7,7 +7,7 @@ class Post(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='post')
     image = models.ImageField(upload_to='post_images', blank=True)
     video = models.FileField(upload_to='videos_uploaded', null=True,
-                             validators=[FileExtensionValidator(allowed_extensions=['MOV', 'avi', 'mp4', 'webm', 'mkv'])])
+                             validators=[FileExtensionValidator(allowed_extensions=['MOV', 'avi', 'mp4', 'webm', 'mkv'])], blank=True)
     caption = models.CharField(max_length=200, blank=True)
     content = models.TextField(blank=True)
     upload_date = models.DateTimeField(auto_now_add=True)

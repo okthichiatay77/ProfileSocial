@@ -32,26 +32,28 @@ def signup_view(request):
 
         if form.is_valid():
             user = form.save()
-            user_profile = UserProfile(user = user)
-            user_profile.save()
-
-            user.is_active = False
-            user.save()
-            # to get the domain of the current site
-            current_site = get_current_site(request)
-            mail_subject = 'Activation link has been sent to your email id'
-            message = render_to_string('accounts/acc_active_email.html', {
-                'user': user,
-                'domain': current_site.domain,
-                'uid': urlsafe_base64_encode(force_bytes(user.pk)),
-                'token': account_activation_token.make_token(user),
-            })
-            to_email = form.cleaned_data.get('email')
-            email = EmailMessage(
-                mail_subject, message, to=[to_email]
-            )
-            email.send()
-            return HttpResponse('Please confirm your email address to complete the registration')
+            registered = True
+            # user_profile = UserProfile(user = user)
+            # user_profile.save()
+            #
+            # user.is_active = False
+            # user.save()
+            # # to get the domain of the current site
+            # current_site = get_current_site(request)
+            # mail_subject = 'Activation link has been sent to your email id'
+            # message = render_to_string('accounts/acc_active_email.html', {
+            #     'user': user,
+            #     'domain': current_site.domain,
+            #     'uid': urlsafe_base64_encode(force_bytes(user.pk)),
+            #     'token': account_activation_token.make_token(user),
+            # })
+            # to_email = form.cleaned_data.get('email')
+            # email = EmailMessage(
+            #     mail_subject, message, to=[to_email]
+            # )
+            # email.send()
+            # return HttpResponse('Please confirm your email address to complete the registration')
+            return HttpResponseRedirect(reverse('accounts:login'))
 
 
     return render(request, 'accounts/signup.html', context={'form':form, 'title':'Sign Up Form Here', 'registered':registered})
@@ -70,7 +72,7 @@ def login_view(request):
 
             if user is not None:
                 login(request, user)
-                return HttpResponseRedirect(reverse('accounts:profile'))
+                return HttpResponseRedirect(reverse('posts:index'))
 
     return render(request, 'accounts/login.html', {'title':'Login Page','form':form})
 

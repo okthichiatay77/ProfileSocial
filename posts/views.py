@@ -11,8 +11,9 @@ from .models import Post, Like, Comment
 from accounts.models import Follow, UserProfile
 from .forms import CommentForm, CreatePost
 
-
+@login_required
 def home(request):
+    context = {}
     posts = Post.objects.all()
     liked_post = Like.objects.filter(user=request.user)
     liked_post_list = liked_post.values_list('post', flat=True)
@@ -24,7 +25,12 @@ def home(request):
             data.save()
     else:
         form = CreatePost()
-    return render(request, 'posts/home.html', context={'posts':posts, 'form':form, 'liked_post_list': liked_post_list})
+
+    context['posts'] = posts
+    context['form'] = form
+    context['users'] = User.objects.all()
+    context['liked_post_list'] = liked_post_list
+    return render(request, 'posts/home.html', context=context)
 
 @login_required
 def list_post(request):
