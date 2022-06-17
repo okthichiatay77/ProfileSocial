@@ -190,10 +190,15 @@
             </div>
             <br>
 
-            <div class="w3-card w3-round w3-white w3-padding-16 w3-center">
+            <div class="w3-card w3-round w3-white w3-padding-16"> <!-- w3-center -->
                 <p>Can you know</p>
                 <hr>
                 {% for user in users %}
+                    {% if user.user_profile.profile_pic %}
+                        <img src="/media/{{ user.user_profile.profile_pic }}" class="w3-circle" style="height:30px;width:30px"/>
+                    {% else %}
+                        <img src="/media/profile_pics/m.jpg" class="w3-circle" style="height:30px;width:30px"/>
+                    {% endif %}
                     {{ user.username }}<br>
                 {% endfor %}
             </div>

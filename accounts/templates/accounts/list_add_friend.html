@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Add Friends
+{% endblock %}
+
+
+{% block content %}
+    <br>
+    <br>
+    <br>
+    <h1>Những người bạn có thể biết?</h1><hr>
+    {% for f in list_users %}
+        {% if f.user_profile.profile_pic %}
+            <img src="/media/{{ f.user_profile.profile_pic }}" class="w3-circle" style="height:30px;width:30px">
+        {% else %}
+            <img src="/media/profile_pics/m.jpg" class="w3-circle" style="height:30px;width:30px">
+        {% endif %}
+        {{ f.username }}<hr>
+    {% endfor %}
+{% endblock %}

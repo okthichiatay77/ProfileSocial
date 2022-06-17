@@ -94,7 +94,7 @@ def profile_view(request):
 @login_required
 def edit_profile(request):
     current_user = request.user
-    profile = UserProfile.objects.get(user= current_user)
+    profile = UserProfile.objects.get(user=current_user)
     form = EditProfile(instance=profile)
 
     if request.method == 'POST':
@@ -122,6 +122,14 @@ def user(request, username):
     if user == request.user:
         return HttpResponseRedirect(reverse('accounts:profile'))
     return render(request, 'accounts/user_other.html', {'user_other':user, 'already_followed':already_followed})
+
+@login_required
+def list_add_friend(request):
+    context = {}
+    list_users = User.objects.all()
+    context['list_users'] = list_users
+    return render(request, 'accounts/list_add_friend.html', context)
+
 
 
 def activate(request, uidb64, token):
@@ -157,3 +165,4 @@ def un_follow(request, username):
     already_followed = Follow.objects.filter(follower=follower_user, following=following_user)
     already_followed.delete()
     return HttpResponseRedirect(reverse('accounts:user', kwargs={'username':username}))
+

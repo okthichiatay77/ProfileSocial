@@ -13,4 +13,5 @@ urlpatterns = [
     path('activate/<uidb64>/<token>/', activate, name='activate'),
     path('follow/<username>/', follow, name='follow'),
     path('unfollow/<username>/', un_follow, name='unfollow'),
+    path('list-friend/', list_add_friend, name='list_friends')
 ]
