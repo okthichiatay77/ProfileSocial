@@ -1,4 +1,4 @@
-from django.shortcuts import render, HttpResponseRedirect
+from django.shortcuts import render, HttpResponseRedirect, get_object_or_404
 from django.urls import reverse, reverse_lazy
 from django.http import HttpResponse
 from django.contrib.auth import login, logout, authenticate
@@ -29,9 +29,10 @@ def signup_view(request):
     registered = False
     if request.method == 'POST':
         form = CreateNewUser(request.POST)
-
         if form.is_valid():
             user = form.save()
+            create_profile = UserProfile.objects.create(user=user)
+            create_profile.save()
             registered = True
             # user_profile = UserProfile(user = user)
             # user_profile.save()
@@ -95,15 +96,13 @@ def profile_view(request):
 def edit_profile(request):
     current_user = request.user
     profile = UserProfile.objects.get(user=current_user)
-    form = EditProfile(instance=profile)
-
     if request.method == 'POST':
-        form = EditProfile(request.POST, request.FILES, instance=profile)
-
+        form = EditProfile(request.POST or None, request.FILES, instance=profile)
         if form.is_valid():
             form.save(commit=True)
-            form = EditProfile(instance=profile)
             return HttpResponseRedirect(reverse('accounts:profile'))
+    else:
+        form = EditProfile()
 
 
     return render(request, 'accounts/edit_profile.html', context={'form':form, 'current_user':current_user})
