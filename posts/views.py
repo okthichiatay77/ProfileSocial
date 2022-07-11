@@ -57,7 +57,7 @@ def liked(request, pk):
         like_post = Like(post=post, user=request.user)
         like_post.save()
 
-    return HttpResponseRedirect(reverse('posts:index'))
+    return HttpResponseRedirect('/')
 
 
 @login_required
@@ -65,7 +65,7 @@ def unliked(request, pk):
     post = Post.objects.get(pk=pk)
     already_liked = Like.objects.filter(post=post, user=request.user)
     already_liked.delete()
-    return HttpResponseRedirect(reverse('posts:index'))
+    return HttpResponseRedirect('/')
 
 
 def detail_post(request, pk):

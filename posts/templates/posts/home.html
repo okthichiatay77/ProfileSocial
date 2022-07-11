@@ -72,35 +72,6 @@
                 </div>
                 <br>
 
-                <!-- Interests -->
-                <div class="w3-card w3-round w3-white w3-hide-small">
-                    <div class="w3-container">
-                        <p>Interests</p>
-                        <p>
-                            <span class="w3-tag w3-small w3-theme-d5">News</span>
-                            <span class="w3-tag w3-small w3-theme-d4">W3Schools</span>
-                            <span class="w3-tag w3-small w3-theme-d3">Labels</span>
-                            <span class="w3-tag w3-small w3-theme-d2">Games</span>
-                            <span class="w3-tag w3-small w3-theme-d1">Friends</span>
-                            <span class="w3-tag w3-small w3-theme">Games</span>
-                            <span class="w3-tag w3-small w3-theme-l1">Friends</span>
-                            <span class="w3-tag w3-small w3-theme-l2">Food</span>
-                            <span class="w3-tag w3-small w3-theme-l3">Design</span>
-                            <span class="w3-tag w3-small w3-theme-l4">Art</span>
-                            <span class="w3-tag w3-small w3-theme-l5">Photos</span>
-                        </p>
-                    </div>
-                </div>
-                <br>
-
-                <!-- Alert Box -->
-                <div class="w3-container w3-display-container w3-round w3-theme-l4 w3-border w3-theme-border w3-margin-bottom w3-hide-small">
-                    <span onclick="this.parentElement.style.display='none'" class="w3-button w3-theme-l3 w3-display-topright">
-                        <i class="fa fa-remove"></i>
-                    </span>
-                    <p><strong>Hey!</strong></p>
-                    <p>People are looking at your profile. Find out who.</p>
-                </div>
 
             <!-- End Left Column -->
             </div>
@@ -113,8 +84,9 @@
                     <div class="w3-card w3-round w3-white">
                         <div class="w3-container w3-padding">
                             <h6 class="w3-opacity">Social Media template</h6>
-                            <p contenteditable="true" class="w3-border w3-padding">What are you thinking?</p>
-                            <button type="button" class="w3-button w3-theme" data-bs-toggle="modal" data-bs-target="#myModal"><i class="fa fa-pencil"></i>  Post</button>
+                            <!-- Button trigger modal -->
+                            <a data-toggle="modal" data-target="#exampleModal"><p contenteditable="true" class="w3-border w3-padding">What are you thinking?</p></a>
+                            <button type="button" class="w3-button w3-theme" data-toggle="modal" data-target="#exampleModal"><i class="fa fa-pencil"></i>  Post</button>
                         </div>
                     </div>
                 </div>
@@ -199,12 +171,9 @@
                     {% else %}
                         <img src="/media/profile_pics/m.jpg" class="w3-circle" style="height:30px;width:30px"/>
                     {% endif %}
-                    {{ user.username }}<br>
+                    <a style="text-decoration: none;color:black" href="{% url 'accounts:user' username=user %}">{{ user.username }}</a>
+                    <br>
                 {% endfor %}
-            </div>
-            <br>
-            <div class="w3-card w3-round w3-white w3-padding-32 w3-center">
-                <p><i class="fa fa-bug w3-xxlarge"></i></p>
             </div>
             <!-- End Right Column -->
             </div>
@@ -247,31 +216,26 @@ function openNav() {
   }
 }
 </script>
-    <!-- The Modal -->
-    <div class="modal" id="myModal">
-      <div class="modal-dialog">
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
         <div class="modal-content">
-
-          <!-- Modal Header -->
           <div class="modal-header">
-            <h4 class="modal-title">Post Blog</h4>
-            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h5 class="modal-title" id="exampleModalLabel">Post</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
           </div>
-
-          <!-- Modal body -->
           <div class="modal-body">
-            <form method="post" enctype="multipart/form-data">
+              <form method="post" enctype="multipart/form-data">
                 {% csrf_token %}
                 {{ form.as_p }}
                 <button type="submit" class="btn btn-info btn-sm">Post Photo</button>
-            </form>
+              </form>
           </div>
-
-          <!-- Modal footer -->
           <div class="modal-footer">
             <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
           </div>
-
         </div>
       </div>
     </div>
