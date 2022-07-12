@@ -12,6 +12,7 @@ from django.utils.translation import gettext_lazy as _
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='user_profile')
     profile_pic = models.ImageField(upload_to='profile_pics', blank=True)
+    image_cover = models.ImageField(upload_to='profile_image_covers', blank=True)
     description = models.TextField(blank=True)
     full_name = models.CharField(max_length=200, blank=True)
     dob = models.DateField(blank=True, null=True)

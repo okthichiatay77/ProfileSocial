@@ -15,91 +15,22 @@
     }
 
 
-    /* show image */
-    #myImg {
-      border-radius: 5px;
-      cursor: pointer;
-      transition: 0.3s;
+    /* profile template */
+    .profile-head {
+        transform: translateY(5rem)
     }
 
-    #myImg:hover {opacity: 0.7;}
-
-    /* The Modal (background) */
-    .modal {
-      display: none; /* Hidden by default */
-      position: fixed; /* Stay in place */
-      z-index: 1; /* Sit on top */
-      padding-top: 100px; /* Location of the box */
-      left: 0;
-      top: 0;
-      width: 100%; /* Full width */
-      height: 100%; /* Full height */
-      overflow: auto; /* Enable scroll if needed */
-      background-color: rgb(0,0,0); /* Fallback color */
-      background-color: rgba(0,0,0,0.9); /* Black w/ opacity */
+    .cover {
+        background-image: url(https://images.unsplash.com/photo-1530305408560-82d13781b33a?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1352&q=80);
+        background-size: cover;
+        background-repeat: no-repeat
     }
 
-    /* Modal Content (image) */
-    .modal-content {
-      margin: auto;
-      display: block;
-      width: 80%;
-      max-width: 700px;
-    }
-
-    /* Caption of Modal Image */
-    #caption {
-      margin: auto;
-      display: block;
-      width: 80%;
-      max-width: 700px;
-      text-align: center;
-      color: #ccc;
-      padding: 10px 0;
-      height: 150px;
-    }
-
-    /* Add Animation */
-    .modal-content, #caption {
-      -webkit-animation-name: zoom;
-      -webkit-animation-duration: 0.6s;
-      animation-name: zoom;
-      animation-duration: 0.6s;
-    }
-
-    @-webkit-keyframes zoom {
-      from {-webkit-transform:scale(0)}
-      to {-webkit-transform:scale(1)}
-    }
-
-    @keyframes zoom {
-      from {transform:scale(0)}
-      to {transform:scale(1)}
-    }
-
-    /* The Close Button */
-    .close {
-      position: absolute;
-      top: 15px;
-      right: 35px;
-      color: #f1f1f1;
-      font-size: 40px;
-      font-weight: bold;
-      transition: 0.3s;
-    }
-
-    .close:hover,
-    .close:focus {
-      color: #bbb;
-      text-decoration: none;
-      cursor: pointer;
-    }
-
-    /* 100% Image Width on Smaller Screens */
-    @media only screen and (max-width: 700px){
-      .modal-content {
-        width: 100%;
-      }
+    body {
+        background: #654ea3;
+        background: linear-gradient(to right, #e96443, #904e95);
+        min-height: 100vh;
+        overflow-x:hidden;
     }
 {% endblock %}
 {% block title %}
@@ -109,32 +40,50 @@
 {% block content %}
     <h1>Profile</h1>
     <br>
-    <div class="w3-card w3-round w3-white">
-        <div class="w3-container">
-            <div class="row">
-                <div class="col-sm-4">
-                    <center>
-                        <br>
-                        {% if user.user_profile.profile_pic %}
-                            <img id="myImg" src="/media/{{ user.user_profile.profile_pic }}" width="220px" height="220px" class="rounded-circle" />
-                        {% else %}
-                            <img src="/media/profile_pics/m.jpg" width="220px" height="220px" class="rounded-circle">
-                        {% endif %}
-                        <br><br>
+    <div class="w3-container">
+        <div class="col-sm-auto">
+            <!-- Profile widget -->
+            <div class="bg-white shadow rounded overflow-hidden">
+                <div class="px-4 pt-0 pb-4 cover">
+                    <div class="media align-items-end profile-head">
+                        <div class="profile mr-3">
+                            <br>
+                            {% if user.user_profile.profile_pic %}
+                                <img id="myImg" src="/media/{{ user.user_profile.profile_pic }}" alt="Image User" width="130" height="130" class="rounded mb-2 img-thumbnail"/>
+                            {% else %}
+                                <img src="/media/profile_pics/m.jpg" alt="Image User" width="130" height="130" class="rounded mb-2 img-thumbnail">
+                            {% endif %}
 
-                    </center>
+                            <a href="{% url 'accounts:edit' %}" class="btn btn-outline-dark btn-sm btn-block">Edit profile</a>
+                        </div>
+                        <div class="media-body mb-5 text-white">
+                            <h4 class="mt-0 mb-0">
+                                {% if user.user_profile.full_name %}
+                                    <h3>{{ user.user_profile.full_name }}</h3>
+                                {% else %}
+                                    <h3>{{ user.username }}</h3>
+                                {% endif %}
+                            </h4>
+                            <p class="small mb-4"><i class="fas fa-map-marker-alt mr-2"></i>New York</p>
+                        </div>
+                    </div>
                 </div>
-                <div class="col-sm-8">
-                    <br>
-                    {% if user.user_profile.full_name %}
-                        <h3>{{ user.user_profile.full_name }} &nbsp; <a class="btn btn-info" href="{% url 'accounts:edit' %}">Edit Profile</a></h3>
-                    {% else %}
-                        <h3>{{ user.username }} &nbsp; <a class="btn btn-info" href="{% url 'accounts:edit' %}">Edit Profile</a></h3>
-                    {% endif %}
-                    <h4>{{ user.post.count }} Posts &nbsp;&nbsp; {{ user.follower.count }} Followers &nbsp;&nbsp;
-                        {{ user.following.count }} Following &nbsp;&nbsp;</h4>
-                    <br>
-                    <p>Birth day: {{ user.user_profile.dob }}</p>
+
+                <div class="bg-light p-4 d-flex justify-content-end text-center">
+                    <ul class="list-inline mb-0">
+                        <li class="list-inline-item">
+                            <h5 class="font-weight-bold mb-0 d-block">{{ user.post.count }}</h5>
+                            <small class="text-muted"> <i class="fas fa-image mr-1"></i>Posts</small>
+                        </li>
+                        <li class="list-inline-item">
+                            <h5 class="font-weight-bold mb-0 d-block">{{ user.follower.count }}</h5>
+                            <small class="text-muted"><i class="fas fa-user mr-1"></i>Followers</small>
+                        </li>
+                        <li class="list-inline-item">
+                            <h5 class="font-weight-bold mb-0 d-block">{{ user.following.count }}</h5>
+                            <small class="text-muted"><i class="fas fa-user mr-1"></i>Following</small>
+                        </li>
+                    </ul>
                 </div>
             </div>
         </div>
@@ -155,6 +104,7 @@
                     <div class="w3-white w3-padding">
                         <h6>Giới thiệu: </h6>{{ user.user_profile.description }}<hr>
                         <p>Địa Chỉ: </p>{{ user.user_profile.address }}
+                        <p>Birth day: {{ user.user_profile.dob }}</p>
                         <p>Link: </p>{{ user.user_profile.website }}
                         <p>Link Facebook: </p>{{ user.user_profile.facebook }}
                         <p>Là việc tại: </p>{{ user.user_profile.work_at }}
@@ -165,6 +115,23 @@
                 <div class="w3-card w3-round">
                     <div class="w3-white w3-padding">
                         <h6>Ảnh: </h6>{{ user.user_profile.description }}<hr>
+                        <div class="py-4 px-4">
+                            <a href="#" class="btn btn-link text-muted">Show all</a>
+                            <div class="row">
+                                <div class="col-lg-6 mb-2 pr-lg-1">
+                                    <img src="https://images.unsplash.com/photo-1469594292607-7bd90f8d3ba4?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80" alt="" class="img-fluid rounded shadow-sm">
+                                </div>
+                                <div class="col-lg-6 mb-2 pl-lg-1">
+                                    <img src="https://images.unsplash.com/photo-1493571716545-b559a19edd14?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80" alt="" class="img-fluid rounded shadow-sm">
+                                </div>
+                                <div class="col-lg-6 pr-lg-1 mb-2">
+                                    <img src="https://images.unsplash.com/photo-1453791052107-5c843da62d97?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80" alt="" class="img-fluid rounded shadow-sm">
+                                </div>
+                                <div class="col-lg-6 pl-lg-1">
+                                    <img src="https://images.unsplash.com/photo-1475724017904-b712052c192a?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80" alt="" class="img-fluid rounded shadow-sm">
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <br>
@@ -311,23 +278,6 @@
             span.onclick = function() {
               modal.style.display = "none";
             }
-
-
-
-
-            // view Image
-            // Accordion
-            function myFunction(id) {
-            var x = document.getElementById(id);
-            if (x.className.indexOf("w3-show") == -1) {
-                x.className += " w3-show";
-                x.previousElementSibling.className += " w3-theme-d1";
-            } else {
-                x.className = x.className.replace("w3-show", "");
-                x.previousElementSibling.className =
-                x.previousElementSibling.className.replace(" w3-theme-d1", "");
-                }
-            }
         </script>
     </body>
 
@@ -354,13 +304,4 @@
         </div>
       </div>
     </div>
-
-
-        <!-- The Modal -->
-        <div id="myModal" class="modal">
-          <span class="close">&times;</span>
-          <img class="modal-content" id="img01">
-          <div id="caption"></div>
-        </div>
-
 {% endblock %}
