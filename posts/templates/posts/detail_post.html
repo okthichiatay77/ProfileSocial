@@ -122,7 +122,11 @@
                     height="60" />
                   {% endif %}
                   <div>
-                    <h6 class="fw-bold text-primary mb-1">{{ com.user.username }}</h6>
+                    {% if com.user.user_profile.full_name %}
+                        <h6 class="fw-bold text-primary mb-1">{{ com.user.user_profile.full_name }}</h6>
+                    {% else %}
+                        <h6 class="fw-bold text-primary mb-1">{{ com.user.username }}</h6>
+                    {% endif %}
                     <p class="text-muted small mb-0">
                       {{ com.date_created }}
                     </p>
@@ -134,7 +138,7 @@
                 </p>
 
                 <div class="small d-flex justify-content-start">
-                  <a href="{% url 'posts:liked_comment' pk=com.pk %}" class="d-flex align-items-center me-3" target="_self">
+                  <a href="#" class="d-flex align-items-center me-3" target="_self">
                     <i class="far fa-thumbs-up me-2"></i>
                     <p class="mb-0">{{ com.count_like_comment }} Like</p>
                   </a>

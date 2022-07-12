@@ -18,6 +18,8 @@ class UserProfile(models.Model):
     address = models.CharField(max_length=200, blank=True)
     website = models.URLField(blank=True)
     facebook = models.URLField(blank=True)
+    work_at = models.CharField(max_length=200, blank=True)
+    school = models.CharField(max_length=200, blank=True)
     friends = models.ManyToManyField(User, related_name='friends', blank=True)
 
 

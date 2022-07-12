@@ -51,19 +51,20 @@
       <a href="#" class="w3-bar-item w3-button">Jane likes your post</a>
     </div>
   </div>
+  {% if user.is_authenticated %}
+    <a class="w3-bar-item w3-button w3-hide-small w3-right w3-padding-large w3-hover-white" href="{% url 'accounts:logout' %}">Logout</a>
+  {% else %}
+    <a class="w3-bar-item w3-button w3-hide-small w3-right w3-padding-large w3-hover-white" href="{% url 'accounts:login' %}">Login</a>
+  {% endif %}
+
   {% if user.user_profile.profile_pic %}
-      <a href="{% url 'accounts:profile' %}" class="w3-bar-item w3-button w3-hide-small" data-bs-toggle="dropdown" title="My Account">
+      <a href="{% url 'accounts:profile' %}" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white" title="My Account">
         <img src="/media/{{ user.user_profile.profile_pic }}" class="w3-circle" style="height:23px;width:23px" alt="Avatar">
       </a>
   {% else %}
       <a href="{% url 'accounts:profile' %}" class="w3-bar-item w3-button w3-hide-small w3-right w3-padding-large w3-hover-white" title="My Account">
           <img src="/media/profile_pics/m.jpg" class="w3-circle" style="height:23px;width:23px" alt="Avatar">
       </a>
-  {% endif %}
-  {% if user.is_authenticated %}
-    <a class="w3-bar-item w3-button w3-hide-small w3-right w3-padding-large w3-hover-white" href="{% url 'accounts:logout' %}">Logout</a>
-  {% else %}
-    <a class="w3-bar-item w3-button w3-hide-small w3-right w3-padding-large w3-hover-white" href="{% url 'accounts:login' %}">Login</a>
   {% endif %}
  </div>
 </div>
